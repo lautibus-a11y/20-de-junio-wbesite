@@ -309,13 +309,23 @@
 
         @media (max-width: 767px) {
             .hero-actions {
-                margin-top: 26px;
-                gap: 10px;
+                margin-top: 28px;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+                justify-content: center;
+                gap: 12px;
+                width: 100%;
+                max-width: 360px;
+                margin-left: auto;
+                margin-right: auto;
             }
             .btn-hero-primary, .btn-hero-secondary {
-                padding: 12px 20px;
-                font-size: 0.92rem;
-                min-height: 44px;
+                width: 100%;
+                padding: 15px 24px;
+                font-size: 1.05rem;
+                min-height: 52px;
+                justify-content: center;
             }
         }
 
@@ -911,7 +921,7 @@
     <nav class="navbar" id="navbar">
         <div class="container">
             <div class="logo" onclick="app.navigate('home', 'top')" style="display: flex; align-items: center; cursor: pointer;">
-                <img src="assets/logo 20.webp" alt="Logo" style="height: 56px; width: auto; object-fit: contain;">
+                <img src="assets/logo-20.webp" alt="Logo" style="height: 56px; width: auto; object-fit: contain;">
                 <span style="margin-left: 12px; font-weight: 700;">20 de junio</span>
             </div>
             
@@ -1394,6 +1404,9 @@
             },
 
             setupHistory() {
+                if ('scrollRestoration' in history) {
+                    history.scrollRestoration = 'manual';
+                }
                 try {
                     history.replaceState({ viewId: 'home', param: null }, '', window.location.pathname + window.location.hash);
                 } catch(e) {}
@@ -1445,7 +1458,10 @@
 
                 // Guardar la posición de scroll en home antes de navegar hacia una categoría o lugar
                 if (activeView && activeView.id === 'view-home') {
-                    this.homeScrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+                    const currentY = window.pageYOffset || document.documentElement.scrollTop || window.scrollY || 0;
+                    if (currentY > 0) {
+                        this.homeScrollPos = currentY;
+                    }
                 }
 
                 if (pushState) {
@@ -1471,6 +1487,13 @@
                     if (viewId === 'home') {
                         const targetScroll = (param === 'top') ? 0 : (this.homeScrollPos || 0);
                         window.scrollTo({ top: targetScroll, behavior: 'instant' });
+                        // Doble pase para asegurar el scroll en móvil tras render y layout
+                        requestAnimationFrame(() => {
+                            window.scrollTo({ top: targetScroll, behavior: 'instant' });
+                        });
+                        setTimeout(() => {
+                            window.scrollTo({ top: targetScroll, behavior: 'instant' });
+                        }, 50);
                     } else {
                         window.scrollTo({ top: 0, behavior: 'instant' });
                     }
@@ -1517,10 +1540,15 @@
 
             // Volver atrás respetando historial y posición de scroll
             goBack() {
+                const activeView = document.querySelector('.view.active');
                 if (window.history.length > 1 && window.location.hash && window.location.hash !== '#' && window.location.hash !== '') {
                     window.history.back();
                 } else {
-                    this.navigate('home');
+                    if (activeView && activeView.id === 'view-place' && this.currentPlaceCatId) {
+                        this.navigate('category', this.currentPlaceCatId);
+                    } else {
+                        this.navigate('home');
+                    }
                 }
             },
 
@@ -1695,6 +1723,7 @@
             loadPlaceView(placeId) {
                 const place = MOCK_DATA.places.find(p => p.id === placeId);
                 if(place) {
+                    this.currentPlaceCatId = place.catId;
                     const catInfo = MOCK_DATA.categories.find(c => c.id === place.catId);
                     
                     // Breadcrumbs
