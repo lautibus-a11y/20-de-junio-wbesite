@@ -217,40 +217,236 @@
         }
         .suggestion-item:active { background-color: var(--c-aurora-2); }
 
+        /* Botones de acción en Hero (UX/UI: Jerarquía Primaria y Secundaria) */
+        .hero-actions {
+            margin-top: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 14px;
+            flex-wrap: wrap;
+        }
+        .btn-hero-primary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 13px 26px;
+            min-height: 48px;
+            background: var(--c-dark-green);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.24);
+            border-radius: var(--radius-full);
+            font-size: 0.98rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.35), 0 2px 6px rgba(0, 0, 0, 0.2);
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-hero-primary svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.2;
+            transition: transform 0.2s ease;
+        }
+        .btn-hero-primary:hover {
+            background: #1b3524;
+            border-color: var(--c-primary);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.45), 0 0 20px rgba(127, 166, 138, 0.35);
+            transform: translateY(-2px);
+        }
+        .btn-hero-primary:hover svg {
+            transform: scale(1.1);
+        }
+        .btn-hero-primary:active {
+            transform: scale(0.97);
+        }
+
+        .btn-hero-secondary {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            padding: 13px 26px;
+            min-height: 48px;
+            background: rgba(8, 20, 12, 0.65);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.22);
+            border-radius: var(--radius-full);
+            font-size: 0.98rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            cursor: pointer;
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            box-shadow: 0 10px 28px rgba(0, 0, 0, 0.25), 0 2px 6px rgba(0, 0, 0, 0.15);
+            transition: all 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+            font-family: inherit;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .btn-hero-secondary svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.2;
+            transition: transform 0.2s ease;
+        }
+        .btn-hero-secondary:hover {
+            background: rgba(14, 34, 22, 0.88);
+            border-color: var(--c-primary);
+            color: var(--c-primary);
+            box-shadow: 0 14px 34px rgba(0, 0, 0, 0.38), 0 0 20px rgba(127, 166, 138, 0.3);
+            transform: translateY(-2px);
+        }
+        .btn-hero-secondary:hover svg {
+            transform: scale(1.1);
+        }
+        .btn-hero-secondary:active {
+            transform: scale(0.97);
+        }
+
+        @media (max-width: 767px) {
+            .hero-actions {
+                margin-top: 26px;
+                gap: 10px;
+            }
+            .btn-hero-primary, .btn-hero-secondary {
+                padding: 12px 20px;
+                font-size: 0.92rem;
+                min-height: 44px;
+            }
+        }
+
         /* Sections */
         .section-padding { padding-top: 48px; padding-bottom: 48px; }
         .section-header { margin-bottom: 24px; text-align: left; display: flex; justify-content: space-between; align-items: flex-end; }
         .section-title { font-size: clamp(1.5rem, 5vw, 2rem); }
 
 
-        /* Hero cinematográfico: capas de opacidad variable (no un velo uniforme) */
+        /* Hero cinematográfico: opacidad circular radial (centro más claro, bordes más oscuros) */
         .hero-video-wrap video { animation: heroPush 28s ease-in-out infinite alternate; transform-origin: 40% 50%; }
         @keyframes heroPush { from { transform: scale(1.02); } to { transform: scale(1.12); } }
         .hero-video-wrap > div { position: absolute; inset: 0; pointer-events: none; }
-        /* Zona del texto: más densa a la izquierda y arriba, se abre hacia la derecha */
+        /* Opacidad circular envolvente: centro con menor opacidad y bordes con mayor opacidad oscura */
         .hero-overlay {
-            background:
-                linear-gradient(100deg, rgba(8,18,12,0.78) 0%, rgba(8,18,12,0.50) 32%, rgba(8,18,12,0.12) 62%, rgba(8,18,12,0) 80%),
-                linear-gradient(180deg, rgba(8,18,12,0.55) 0%, rgba(8,18,12,0) 24%);
+            background: radial-gradient(ellipse 85% 75% at 50% 50%, rgba(4, 12, 7, 0.22) 0%, rgba(4, 12, 7, 0.5) 55%, rgba(2, 8, 4, 0.85) 100%);
         }
-        /* Viñeta: oscurece bordes, deja el centro limpio */
-        .hero-vignette { background: radial-gradient(ellipse 85% 75% at 60% 45%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.45) 100%); }
-        /* Color grading + sombra inferior gradual (sin blanco) */
+        /* Viñeta perimetral circular para acentuar el oscurecido en los bordes */
+        .hero-vignette {
+            background: radial-gradient(circle at 50% 50%, transparent 35%, rgba(0, 0, 0, 0.55) 100%);
+        }
+        /* Transición superior e inferior suave con navbar y marquesina */
         .hero-grade {
-            background:
-                linear-gradient(180deg, rgba(0,0,0,0) 55%, rgba(8,18,12,0.35) 85%, rgba(8,18,12,0.6) 100%),
-                linear-gradient(135deg, rgba(41,74,54,0.22), rgba(255,170,90,0.08) 70%);
+            background: linear-gradient(180deg, rgba(2, 8, 4, 0.35) 0%, transparent 22%, transparent 68%, rgba(2, 8, 4, 0.65) 100%);
             mix-blend-mode: normal;
         }
-        /* Grano de película sutil */
+        /* Grano muy sutil */
         .hero-grain {
-            opacity: 0.09; mix-blend-mode: overlay;
+            opacity: 0.06; mix-blend-mode: overlay;
             background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
         }
         @media (max-width: 767px) {
-            .hero-overlay { background: linear-gradient(180deg, rgba(8,18,12,0.6) 0%, rgba(8,18,12,0.38) 45%, rgba(8,18,12,0.55) 100%); }
+            .hero-overlay { background: radial-gradient(ellipse 90% 80% at 50% 48%, rgba(4, 12, 7, 0.3) 0%, rgba(4, 12, 7, 0.58) 55%, rgba(2, 8, 4, 0.88) 100%); }
         }
         @media (prefers-reduced-motion: reduce) { .hero-video-wrap video { animation: none; } }
+
+        /* Marquesina Infinita Debajo del Hero (Transparente con fondo de la web) */
+        .marquee-section {
+            position: relative;
+            z-index: 5;
+            background: transparent;
+            padding: 24px 0 12px 0;
+            overflow: hidden;
+            user-select: none;
+            border-bottom: 1px solid var(--c-border);
+        }
+        .marquee-wrap {
+            display: flex;
+            width: 100%;
+            overflow: hidden;
+            mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+            -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 6%, #000 94%, transparent 100%);
+        }
+        .marquee-track {
+            display: flex;
+            align-items: center;
+            flex-shrink: 0;
+            gap: 18px;
+            padding-right: 18px;
+            animation: marqueeScroll 36s linear infinite;
+            will-change: transform;
+        }
+        .marquee-section:hover .marquee-track {
+            animation-play-state: paused;
+        }
+        @keyframes marqueeScroll {
+            from { transform: translateX(0); }
+            to { transform: translateX(-100%); }
+        }
+        .marquee-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 6px 10px;
+            background: transparent;
+            border: none;
+            color: var(--c-text-main);
+            font-size: 0.95rem;
+            font-weight: 600;
+            letter-spacing: -0.01em;
+            white-space: nowrap;
+            transition: var(--transition);
+            cursor: pointer;
+        }
+        .marquee-chip:hover {
+            color: var(--c-primary);
+            transform: translateY(-1px);
+        }
+        .marquee-chip:active {
+            transform: scale(0.97);
+        }
+        .marquee-chip .chip-icon {
+            font-size: 1.15rem;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s ease;
+        }
+        .marquee-chip:hover .chip-icon {
+            transform: scale(1.1);
+        }
+        .marquee-chip .chip-text {
+            color: inherit;
+            font-weight: 600;
+            transition: color 0.2s ease;
+        }
+        .marquee-chip .chip-arrow {
+            opacity: 0.5;
+            font-size: 0.82rem;
+            color: var(--c-primary);
+            font-weight: 700;
+            transition: transform 0.2s ease, opacity 0.2s ease;
+        }
+        .marquee-chip:hover .chip-arrow {
+            opacity: 1;
+            transform: translate(2px, -2px);
+        }
+        .marquee-dot {
+            color: var(--c-primary);
+            font-size: 0.85rem;
+            opacity: 0.6;
+            user-select: none;
+        }
+        @media (max-width: 767px) {
+            .marquee-section { padding: 16px 0 8px 0; }
+            .marquee-chip { padding: 4px 6px; font-size: 0.88rem; }
+            .marquee-track { gap: 12px; padding-right: 12px; animation-duration: 28s; }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .marquee-track { animation: none; overflow-x: auto; }
+        }
 
         /* Categorías - Sticky stacked cards con 3D unfold (GSAP ScrollTrigger + scrub) */
         .categories-grid {
@@ -319,20 +515,26 @@
 
         /* Lugares Destacados - Mobile First: Scroll Horizontal (Carousel) */
         .places-scroll-container {
-            /* Scroll de lado a lado alineado con el container */
             padding: 8px var(--container-px) 24px var(--container-px);
-            scroll-padding-left: var(--container-px);
-            overflow-x: auto; 
-            -webkit-overflow-scrolling: touch; /* Suavidad en iOS */
-            scrollbar-width: none; /* Ocultar scrollbar Firefox */
+            overflow: hidden; 
+            overflow-x: hidden;
+            scrollbar-width: none;
+            width: 100%;
+            position: relative;
         }
-        .places-scroll-container::-webkit-scrollbar { display: none; } /* Ocultar scrollbar Chrome/Safari */
+        .places-scroll-container::-webkit-scrollbar { display: none; }
 
         .places-grid { 
             display: flex; 
             gap: 14px; 
-            width: max-content; /* Permite el scroll continuo sin comprimir */
-            padding-right: 14px; /* Ajuste matemático para el loop infinito (iguala al gap) */
+            width: max-content;
+            flex-shrink: 0;
+            will-change: transform;
+            cursor: grab;
+            user-select: none;
+        }
+        .places-grid:active {
+            cursor: grabbing;
         }
 
         .place-card {
@@ -367,10 +569,68 @@
         }
         .btn-card-action:active { background-color: var(--c-dark-green); transform: scale(0.98); }
 
+        /* Barra de navegación interna con botón volver y breadcrumbs */
+        .view-nav-bar {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 18px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--c-border);
+            border-radius: var(--radius-full);
+            color: var(--c-dark-green);
+            font-size: 0.92rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+            -webkit-tap-highlight-color: transparent;
+            font-family: inherit;
+        }
+        .btn-back svg {
+            width: 18px;
+            height: 18px;
+            stroke-width: 2.3;
+            transition: transform 0.2s ease, stroke 0.2s ease;
+        }
+        .btn-back:hover {
+            background: #ffffff;
+            border-color: var(--c-primary);
+            color: var(--c-dark-green);
+            box-shadow: var(--shadow-md);
+            transform: translateX(-3px);
+        }
+        .btn-back:hover svg {
+            transform: translateX(-3px);
+            stroke: var(--c-primary);
+        }
+        .btn-back:active {
+            transform: scale(0.96);
+        }
+
         /* Breadcrumbs */
         .breadcrumbs {
             display: flex; flex-wrap: wrap; align-items: center; gap: 8px;
             font-size: 0.85rem; color: var(--c-text-muted); margin-bottom: 24px;
+        }
+        .view-nav-bar .breadcrumbs {
+            margin-bottom: 0;
+        }
+        .breadcrumbs a {
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+        .breadcrumbs a:hover {
+            color: var(--c-primary);
         }
         
         /* Vista Categoría Grid (Distinta al carousel de inicio) */
@@ -444,15 +704,18 @@
             
             /* Destacados - Desktop: Carousel en lugar de grilla para mantener autoplay */
             .places-scroll-container { 
-                overflow-x: auto; 
+                overflow: hidden;
+                overflow-x: hidden; 
                 padding: 16px 0 40px 0; 
                 margin: 0; 
+                width: 100%;
             }
             .places-grid { 
                 display: flex; 
                 gap: 32px; 
                 width: max-content; 
-                padding-right: 32px; /* Ajuste matemático para el loop (iguala al gap) */
+                flex-shrink: 0;
+                will-change: transform;
             }
             .place-card { min-width: 360px; max-width: 400px; }
             .place-card:hover { transform: translateY(-8px); box-shadow: var(--shadow-hover); }
@@ -476,6 +739,159 @@
             .mobile-bottom-action { display: none !important; }
             .action-panel { display: block; position: sticky; top: 120px; }
         }
+
+        /* Modal: Normas de la Comunidad (Glassmorphism & UX premium) */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(10, 24, 16, 0.68);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            z-index: 2000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .modal-card {
+            background: #ffffff;
+            border-radius: var(--radius-lg);
+            width: 100%;
+            max-width: 580px;
+            max-height: 88vh;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+            box-shadow: 0 24px 60px rgba(0, 0, 0, 0.35), 0 4px 16px rgba(0, 0, 0, 0.15);
+            border: 1px solid rgba(127, 166, 138, 0.25);
+            transform: translateY(20px) scale(0.97);
+            transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .modal-overlay.active .modal-card {
+            transform: translateY(0) scale(1);
+        }
+        .modal-header {
+            padding: 24px 28px 18px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--c-border);
+            background: linear-gradient(180deg, #f7faf7 0%, #ffffff 100%);
+        }
+        .modal-header-title {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .modal-header-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: var(--radius-md);
+            background: var(--c-aurora-2);
+            color: var(--c-dark-green);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .modal-header-icon svg {
+            width: 22px;
+            height: 22px;
+        }
+        .modal-header h3 {
+            font-size: 1.25rem;
+            color: var(--c-dark-green);
+            margin: 0;
+            font-weight: 700;
+            letter-spacing: -0.02em;
+        }
+        .modal-header p {
+            font-size: 0.82rem;
+            color: var(--c-text-muted);
+            margin: 2px 0 0 0;
+        }
+        .modal-close-btn {
+            background: rgba(0, 0, 0, 0.05);
+            border: none;
+            width: 36px;
+            height: 36px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            color: var(--c-text-main);
+            transition: var(--transition);
+        }
+        .modal-close-btn:hover {
+            background: rgba(0, 0, 0, 0.1);
+            transform: scale(1.05);
+        }
+        .modal-body {
+            padding: 24px 28px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .rule-card {
+            display: flex;
+            gap: 14px;
+            padding: 14px 16px;
+            background: #fbfdfb;
+            border: 1px solid #e2ebe4;
+            border-radius: var(--radius-md);
+            transition: var(--transition);
+        }
+        .rule-card:hover {
+            border-color: var(--c-primary);
+            background: #ffffff;
+            box-shadow: var(--shadow-sm);
+        }
+        .rule-badge {
+            width: 32px;
+            height: 32px;
+            border-radius: var(--radius-full);
+            background: var(--c-primary);
+            color: white;
+            font-weight: 700;
+            font-size: 0.85rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+        }
+        .rule-content h4 {
+            font-size: 0.96rem;
+            color: var(--c-dark-green);
+            margin: 0 0 4px 0;
+            font-weight: 600;
+        }
+        .rule-content p {
+            font-size: 0.85rem;
+            color: var(--c-text-muted);
+            line-height: 1.45;
+            margin: 0;
+        }
+        .modal-footer {
+            padding: 16px 28px 22px;
+            border-top: 1px solid var(--c-border);
+            display: flex;
+            justify-content: flex-end;
+            background: #fdfefe;
+        }
+        .modal-footer .btn-primary {
+            width: 100%;
+            height: 46px;
+            border-radius: var(--radius-full);
+        }
     </style>
 </head>
 <body>
@@ -485,7 +901,7 @@
 
     <!-- Menú Overlay Mobile -->
     <div class="mobile-menu" id="mobile-menu">
-        <a onclick="app.closeMenu(); app.navigate('home')">Inicio</a>
+        <a onclick="app.closeMenu(); app.navigate('home', 'top')">Inicio</a>
         <a onclick="app.closeMenu(); app.scrollTo('categories-section')">Categorías</a>
         <a onclick="app.closeMenu(); app.scrollTo('featured-section')">Destacados</a>
         <button class="btn-primary" onclick="app.closeMenu(); app.scrollTo('categories-section')">Explorar Mapa</button>
@@ -494,8 +910,8 @@
     <!-- Navbar -->
     <nav class="navbar" id="navbar">
         <div class="container">
-            <div class="logo" onclick="app.navigate('home')" style="display: flex; align-items: center; cursor: pointer;">
-                <img src="assets/logo 20.png" alt="Logo" style="height: 56px; width: auto; object-fit: contain;">
+            <div class="logo" onclick="app.navigate('home', 'top')" style="display: flex; align-items: center; cursor: pointer;">
+                <img src="assets/logo 20.webp" alt="Logo" style="height: 56px; width: auto; object-fit: contain;">
                 <span style="margin-left: 12px; font-weight: 700;">20 de junio</span>
             </div>
             
@@ -506,7 +922,7 @@
 
             <!-- Links Desktop -->
             <div class="nav-links">
-                <a onclick="app.navigate('home')">Inicio</a>
+                <a onclick="app.navigate('home', 'top')">Inicio</a>
                 <a onclick="app.scrollTo('categories-section')">Categorías</a>
                 <a onclick="app.scrollTo('featured-section')">Destacados</a>
                 <button class="btn-primary" onclick="app.scrollTo('categories-section')">
@@ -534,8 +950,9 @@
             <!-- Hero -->
             <div class="hero" style="position: relative; overflow: hidden; min-height: 100vh; display: flex; align-items: center; justify-content: center; margin-top: -100px; padding-top: 100px;">
                 <div class="hero-video-wrap" style="position: absolute; top: -20%; left: 0; width: 100%; height: 140%; z-index: -1; will-change: transform;">
-                    <video autoplay loop muted playsinline preload="auto" style="width: 100%; height: 100%; object-fit: cover;">
-                        <source src="assets/hero/20video hero.mp4" type="video/mp4">
+                    <video autoplay loop muted playsinline preload="auto" poster="assets/hero/hero-poster.webp" style="width: 100%; height: 100%; object-fit: cover;">
+                        <source src="assets/hero/hero.webm" type="video/webm">
+                        <source src="assets/hero/hero.mp4" type="video/mp4">
                     </video>
                     <div class="hero-overlay"></div>
                     <div class="hero-vignette"></div>
@@ -546,23 +963,156 @@
                     <h1 class="hero-title" id="hero-title-text" style="color: white; text-shadow: 0 2px 8px rgba(0,0,0,0.5); text-align: left; font-size: clamp(2.6rem, 11.5vw, 6rem); line-height: 1.05;">Bienvenidos a<br>20 de junio</h1>
                     <p class="hero-subtitle gs-reveal" style="color: #eaf2eb; text-shadow: 0 2px 4px rgba(0,0,0,0.5); text-align: left; margin-left: 0;">Descubrí lugares, encontrá servicios y explorá todo lo que tenés cerca, a un clic de distancia.</p>
                     
-                    <div class="search-container gs-reveal">
-                    <div class="search-bar">
-                        <span class="search-icon">
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-                        </span>
-                        <!-- type="search" habilita teclado especial en móviles -->
-                        <input type="search" id="main-search" placeholder="Buscar p. ej. Farmacia, Pizza...">
-                        <button class="btn-primary d-md-block" style="padding: 8px 16px; border-radius: 99px; min-height: 40px;">Buscar</button>
-                    </div>
-                    <!-- Sugerencias -->
-                    <div class="search-suggestions" id="search-sugg">
-                        <div class="suggestion-item" onclick="app.navigate('category', 'restaurantes')">🍕 Restaurantes y gastronomía</div>
-                        <div class="suggestion-item" onclick="app.navigate('category', 'farmacias')">💊 Farmacias de turno</div>
-                        <div class="suggestion-item" onclick="app.navigate('category', 'salud')">🏥 Hospitales y clínicas</div>
+                    <div class="hero-actions gs-reveal">
+                        <button class="btn-hero-primary" onclick="app.scrollTo('categories-section')" aria-label="Nuestros lugares">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                <circle cx="12" cy="10" r="3"></circle>
+                            </svg>
+                            <span>Nuestros lugares</span>
+                        </button>
+                        <button class="btn-hero-secondary" onclick="app.openCommunityRules()" aria-label="Normas de la comunidad">
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                                <path d="m9 12 2 2 4-4"></path>
+                            </svg>
+                            <span>Normas de la comunidad</span>
+                        </button>
                     </div>
                 </div>
             </div>
+
+            <!-- Marquesina Infinita de Servicios y Lugares -->
+            <div class="marquee-section" aria-label="Servicios y lugares del barrio">
+                <div class="marquee-wrap">
+                    <div class="marquee-track">
+                        <!-- Bloque 1 de items -->
+                        <div class="marquee-chip" onclick="app.navigate('category', 'restaurantes')">
+                            <span class="chip-icon">🍕</span>
+                            <span class="chip-text">Gastronomía & Pizzerías</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'farmacias')">
+                            <span class="chip-icon">💊</span>
+                            <span class="chip-text">Farmacias de Turno</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'salud')">
+                            <span class="chip-icon">🏥</span>
+                            <span class="chip-text">Centros Médicos & Clínicas</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'plazas')">
+                            <span class="chip-icon">🌳</span>
+                            <span class="chip-text">Plazas & Espacios Verdes</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'supermercados')">
+                            <span class="chip-icon">🛒</span>
+                            <span class="chip-text">Supermercados & Comercios</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'mascotas')">
+                            <span class="chip-icon">🐾</span>
+                            <span class="chip-text">Veterinarias 24hs</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'seguridad')">
+                            <span class="chip-icon">🛡️</span>
+                            <span class="chip-text">Seguridad & Emergencias</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'transporte')">
+                            <span class="chip-icon">🚌</span>
+                            <span class="chip-text">Transporte & Paradas</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'restaurantes')">
+                            <span class="chip-icon">☕</span>
+                            <span class="chip-text">Cafeterías & Heladerías</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'plazas')">
+                            <span class="chip-icon">⚽</span>
+                            <span class="chip-text">Clubes & Postas Deportivas</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                    </div>
+
+                    <!-- Bloque clonado idéntico para loop infinito continuo sin saltos -->
+                    <div class="marquee-track" aria-hidden="true">
+                        <div class="marquee-chip" onclick="app.navigate('category', 'restaurantes')">
+                            <span class="chip-icon">🍕</span>
+                            <span class="chip-text">Gastronomía & Pizzerías</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'farmacias')">
+                            <span class="chip-icon">💊</span>
+                            <span class="chip-text">Farmacias de Turno</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'salud')">
+                            <span class="chip-icon">🏥</span>
+                            <span class="chip-text">Centros Médicos & Clínicas</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'plazas')">
+                            <span class="chip-icon">🌳</span>
+                            <span class="chip-text">Plazas & Espacios Verdes</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'supermercados')">
+                            <span class="chip-icon">🛒</span>
+                            <span class="chip-text">Supermercados & Comercios</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'mascotas')">
+                            <span class="chip-icon">🐾</span>
+                            <span class="chip-text">Veterinarias 24hs</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'seguridad')">
+                            <span class="chip-icon">🛡️</span>
+                            <span class="chip-text">Seguridad & Emergencias</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'transporte')">
+                            <span class="chip-icon">🚌</span>
+                            <span class="chip-text">Transporte & Paradas</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'restaurantes')">
+                            <span class="chip-icon">☕</span>
+                            <span class="chip-text">Cafeterías & Heladerías</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                        <div class="marquee-chip" onclick="app.navigate('category', 'plazas')">
+                            <span class="chip-icon">⚽</span>
+                            <span class="chip-text">Clubes & Postas Deportivas</span>
+                            <span class="chip-arrow">↗</span>
+                        </div>
+                        <span class="marquee-dot">✦</span>
+                    </div>
+                </div>
             </div>
 
             <!-- Categorías -->
@@ -592,10 +1142,19 @@
         <!-- VISTA: CATEGORÍA -->
         <section id="view-category" class="view">
             <div class="container">
-                <div class="breadcrumbs">
-                    <a onclick="app.navigate('home')">Inicio</a>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    <span id="cat-crumb-name" style="color: var(--c-text-main); font-weight: 500;">Categoría</span>
+                <div class="view-nav-bar">
+                    <button class="btn-back" onclick="app.goBack()" aria-label="Volver">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Volver</span>
+                    </button>
+                    <div class="breadcrumbs">
+                        <a onclick="app.goBack()">Inicio</a>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span id="cat-crumb-name" style="color: var(--c-text-main); font-weight: 500;">Categoría</span>
+                    </div>
                 </div>
                 
                 <div class="category-header gs-reveal" style="margin-bottom: 32px;">
@@ -617,12 +1176,21 @@
         <!-- VISTA: DETALLE DE LUGAR -->
         <section id="view-place" class="view">
             <div class="container">
-                <div class="breadcrumbs">
-                    <a onclick="app.navigate('home')">Inicio</a>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    <a id="place-crumb-cat">Categoría</a>
-                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
-                    <span id="place-crumb-name" style="color: var(--c-text-main); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">Lugar</span>
+                <div class="view-nav-bar">
+                    <button class="btn-back" onclick="app.goBack()" aria-label="Volver">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                        <span>Volver</span>
+                    </button>
+                    <div class="breadcrumbs">
+                        <a onclick="app.navigate('home')">Inicio</a>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <a id="place-crumb-cat">Categoría</a>
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+                        <span id="place-crumb-name" style="color: var(--c-text-main); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px;">Lugar</span>
+                    </div>
                 </div>
 
                 <div class="place-detail-header gs-reveal">
@@ -694,19 +1262,87 @@
         </section>
     </main>
 
+    <!-- MODAL: NORMAS DE LA COMUNIDAD -->
+    <div class="modal-overlay" id="community-rules-modal" role="dialog" aria-modal="true" aria-labelledby="rules-modal-title" onclick="if(event.target === this) app.closeCommunityRules()">
+        <div class="modal-card">
+            <div class="modal-header">
+                <div class="modal-header-title">
+                    <div class="modal-header-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+                            <path d="m9 12 2 2 4-4"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 id="rules-modal-title">Normas de la comunidad</h3>
+                        <p>Pautas para convivir y cuidar nuestro barrio 20 de Junio</p>
+                    </div>
+                </div>
+                <button class="modal-close-btn" onclick="app.closeCommunityRules()" aria-label="Cerrar ventana">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+                        <line x1="18" y1="6" x2="6" y2="18"></line>
+                        <line x1="6" y1="6" x2="18" y2="18"></line>
+                    </svg>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="rule-card">
+                    <div class="rule-badge">1</div>
+                    <div class="rule-content">
+                        <h4>Respeto y convivencia entre vecinos</h4>
+                        <p>Fomentamos el trato cordial, la solidaridad barrial y el cuidado de los horarios de descanso comunes.</p>
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-badge">2</div>
+                    <div class="rule-content">
+                        <h4>Cuidado de espacios verdes y públicos</h4>
+                        <p>Mantené limpias las plazas, utilizá los cestos de basura correspondientes y cuidá la flora y el mobiliario urbano.</p>
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-badge">3</div>
+                    <div class="rule-content">
+                        <h4>Apoyo al comercio local</h4>
+                        <p>Priorizamos y respaldamos a los emprendedores, profesionales y pequeños negocios que hacen crecer al barrio.</p>
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-badge">4</div>
+                    <div class="rule-content">
+                        <h4>Tenencia responsable de mascotas</h4>
+                        <p>Paseá a tus mascotas con correa, recogé siempre sus desechos y asegurá su salud y vacunas al día.</p>
+                    </div>
+                </div>
+                <div class="rule-card">
+                    <div class="rule-badge">5</div>
+                    <div class="rule-content">
+                        <h4>Seguridad y colaboración vecinal</h4>
+                        <p>Ante emergencias o situaciones inusuales, comunicate de inmediato con las vías y autoridades correspondientes.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-primary" onclick="app.closeCommunityRules()">
+                    Entendido, gracias
+                </button>
+            </div>
+        </div>
+    </div>
+
     <script>
         // --- 1. Datos Mock (Con SVGs Profesionales actualizados) ---
         const MOCK_DATA = {
             categories: [
                 // SVGs detallados usando trazos limpios, esquinas redondeadas (stroke-linecap/join round)
-                { id: 'salud', name: 'Salud', img: 'assets/categories/salud.jpg', sub: 'Hospitales, clínicas y centros médicos' }, 
-                { id: 'seguridad', name: 'Seguridad', img: 'assets/categories/seguridad.jpg', sub: 'Comisarías, bomberos y emergencias' }, 
-                { id: 'restaurantes', name: 'Gastronomía', img: 'assets/categories/restaurantes.jpg', sub: 'Restaurantes, pizzerías y cafés' },
-                { id: 'farmacias', name: 'Farmacias', img: 'assets/categories/farmacias.jpg', sub: 'Farmacias de turno y perfumerías' },
-                { id: 'supermercados', name: 'Comercios', img: 'assets/categories/supermercados.jpg', sub: 'Supermercados y negocios del barrio' },
-                { id: 'plazas', name: 'Espacios Verdes', img: 'assets/categories/plazas.jpg', sub: 'Plazas, parques y paseos' },
-                { id: 'mascotas', name: 'Veterinarias', img: 'assets/categories/mascotas.jpg', sub: 'Cuidado y salud de tus mascotas' },
-                { id: 'transporte', name: 'Transporte', img: 'assets/categories/transporte.jpg', sub: 'Colectivos, paradas y movilidad' }
+                { id: 'salud', name: 'Salud', img: 'assets/categories/Salud.jpg', sub: 'Hospitales, clínicas y centros médicos' }, 
+                { id: 'seguridad', name: 'Seguridad', img: 'assets/categories/Seguridad.jpg', sub: 'Comisarías, bomberos y emergencias' }, 
+                { id: 'restaurantes', name: 'Gastronomía', img: 'assets/categories/Gastronomia.jpg', sub: 'Restaurantes, pizzerías y cafés' },
+                { id: 'farmacias', name: 'Farmacias', img: 'assets/categories/farmacias.webp', sub: 'Farmacias de turno y perfumerías' },
+                { id: 'supermercados', name: 'Comercios', img: 'assets/categories/Comercios.jpg', sub: 'Supermercados y negocios del barrio' },
+                { id: 'plazas', name: 'Espacios Verdes', img: 'assets/categories/plazas.webp', sub: 'Plazas, parques y paseos' },
+                { id: 'mascotas', name: 'Veterinarias', img: 'assets/categories/mascotas.webp', sub: 'Cuidado y salud de tus mascotas' },
+                { id: 'transporte', name: 'Transporte', img: 'assets/categories/transporte.webp', sub: 'Colectivos, paradas y movilidad' }
             ],
             places: [
                 {
@@ -745,6 +1381,8 @@
             /* Variables para el carrusel continuo */
             carouselAnimationId: null,
             isCarouselPaused: false,
+            carouselPos: 0,
+            homeScrollPos: 0,
 
             init() {
                 this.renderCategories();
@@ -752,6 +1390,28 @@
                 this.initAnimations();
                 this.setupSearch();
                 this.setupScrollEffects();
+                this.setupHistory();
+            },
+
+            setupHistory() {
+                try {
+                    history.replaceState({ viewId: 'home', param: null }, '', window.location.pathname + window.location.hash);
+                } catch(e) {}
+
+                window.addEventListener('popstate', (e) => {
+                    if (e.state && e.state.viewId) {
+                        this.navigate(e.state.viewId, e.state.param, false);
+                    } else {
+                        const hash = window.location.hash;
+                        if (hash && hash.startsWith('#category=')) {
+                            this.navigate('category', hash.replace('#category=', ''), false);
+                        } else if (hash && hash.startsWith('#place=')) {
+                            this.navigate('place', hash.replace('#place=', ''), false);
+                        } else {
+                            this.navigate('home', null, false);
+                        }
+                    }
+                });
             },
 
             // Interfaz y Menú Mobile
@@ -766,14 +1426,34 @@
             },
 
             // Enrutador de un solo archivo (SPA)
-            navigate(viewId, param = null) {
+            navigate(viewId, param = null, pushState = true) {
                 // Limpiar barra inferior de móviles siempre al navegar
                 document.getElementById('mobile-action-bar').classList.remove('active');
 
                 const activeView = document.querySelector('.view.active');
                 const nextView = document.getElementById(`view-${viewId}`);
                 
-                if (!nextView || (activeView === nextView && !param)) return;
+                if (!nextView) return;
+
+                // Si ya estamos en home y se pide 'top', hacer scroll suave arriba
+                if (activeView === nextView && viewId === 'home' && param === 'top') {
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                    return;
+                }
+
+                if (activeView === nextView && !param) return;
+
+                // Guardar la posición de scroll en home antes de navegar hacia una categoría o lugar
+                if (activeView && activeView.id === 'view-home') {
+                    this.homeScrollPos = window.scrollY || window.pageYOffset || document.documentElement.scrollTop || 0;
+                }
+
+                if (pushState) {
+                    const hash = viewId === 'home' ? '' : `#${viewId}${param ? '=' + param : ''}`;
+                    try {
+                        history.pushState({ viewId, param }, '', hash || window.location.pathname);
+                    } catch(e) {}
+                }
 
                 const isBackward = (viewId === 'home'); // Determina dirección de navegación
 
@@ -786,7 +1466,14 @@
                     
                     // Mostrar solicitada
                     nextView.classList.add('active');
-                    window.scrollTo({ top: 0, behavior: 'instant' });
+
+                    // Si volvemos a home, restauramos exactamente la posición previa del scroll
+                    if (viewId === 'home') {
+                        const targetScroll = (param === 'top') ? 0 : (this.homeScrollPos || 0);
+                        window.scrollTo({ top: targetScroll, behavior: 'instant' });
+                    } else {
+                        window.scrollTo({ top: 0, behavior: 'instant' });
+                    }
                     
                     // Animación GSAP de entrada con deslizamiento
                     gsap.fromTo(nextView, 
@@ -807,8 +1494,11 @@
                         }, 500);
                     }
                     
-                    // Refrescar triggers de GSAP por cambio de DOM
-                    setTimeout(() => ScrollTrigger.refresh(), 100);
+                    // Refrescar triggers de GSAP por cambio de DOM y sincronizar scroll
+                    setTimeout(() => {
+                        ScrollTrigger.refresh();
+                        window.dispatchEvent(new Event('scroll'));
+                    }, 120);
                 };
 
                 // Si hay una vista activa, la animamos hacia afuera primero
@@ -825,6 +1515,15 @@
                 }
             },
 
+            // Volver atrás respetando historial y posición de scroll
+            goBack() {
+                if (window.history.length > 1 && window.location.hash && window.location.hash !== '#' && window.location.hash !== '') {
+                    window.history.back();
+                } else {
+                    this.navigate('home');
+                }
+            },
+
             scrollTo(elementId) {
                 if(document.getElementById('view-home').classList.contains('active')) {
                     const el = document.getElementById(elementId);
@@ -835,6 +1534,22 @@
                 } else {
                     this.navigate('home');
                     setTimeout(() => this.scrollTo(elementId), 200); 
+                }
+            },
+
+            openCommunityRules() {
+                const modal = document.getElementById('community-rules-modal');
+                if (modal) {
+                    modal.classList.add('active');
+                    document.body.style.overflow = 'hidden';
+                }
+            },
+
+            closeCommunityRules() {
+                const modal = document.getElementById('community-rules-modal');
+                if (modal) {
+                    modal.classList.remove('active');
+                    document.body.style.overflow = '';
                 }
             },
 
@@ -862,53 +1577,88 @@
                 const grid = document.getElementById('featured-grid');
                 const featured = MOCK_DATA.places.filter(p => p.featured);
                 
-                // 1. Inyectamos los elementos originales
-                const originalHTML = featured.map(place => this.createPlaceCardHTML(place)).join('');
+                // Inyectamos 4 copias para loop infinito continuo sin saltos en cualquier resolución
+                const cardsHTML = featured.map(place => this.createPlaceCardHTML(place)).join('');
+                grid.innerHTML = cardsHTML + cardsHTML + cardsHTML + cardsHTML;
                 
-                // 2. Duplicamos el contenido inmediatamente para crear la ilusión de loop infinito continuo
-                grid.innerHTML = originalHTML + originalHTML; 
-                
-                // Inicializar autoplay constante sin interrupciones
-                setTimeout(() => this.initCarousel(), 100);
+                // Iniciar autoplay de inmediato
+                setTimeout(() => this.initCarousel(), 80);
             },
 
             initCarousel() {
                 const container = document.querySelector('.places-scroll-container');
-                if (!container) return;
+                const grid = document.getElementById('featured-grid');
+                if (!container || !grid) return;
 
                 this.stopCarousel();
                 this.isCarouselPaused = false;
-                
-                // Ajusta la velocidad modificando este valor (píxeles por frame)
-                const speed = 1.2; 
+                if (typeof this.carouselPos !== 'number' || isNaN(this.carouselPos)) {
+                    this.carouselPos = 0;
+                }
+
+                // Velocidad continua y suave (ajustable en px por frame)
+                const speed = 1.0;
 
                 const play = () => {
-                    // Solo animar si estamos en la vista Inicio y no está pausado
-                    if (document.getElementById('view-home').classList.contains('active')) {
+                    const homeView = document.getElementById('view-home');
+                    if (homeView && homeView.classList.contains('active')) {
                         if (!this.isCarouselPaused) {
-                            container.scrollLeft += speed;
+                            this.carouselPos += speed;
                             
-                            // Cuando llegamos a la mitad exacta (donde empieza el bloque clonado),
-                            // retrocedemos a 0 invisiblemente sin que el usuario lo note.
-                            if (container.scrollLeft >= container.scrollWidth / 2) {
-                                container.scrollLeft = 0;
+                            // Un bloque completo = exactamente 1/4 del ancho total del grid
+                            const singleBlockWidth = grid.scrollWidth / 4;
+                            if (singleBlockWidth > 0 && this.carouselPos >= singleBlockWidth) {
+                                this.carouselPos -= singleBlockWidth;
                             }
+                            grid.style.transform = `translate3d(-${this.carouselPos}px, 0, 0)`;
                         }
                     }
                     this.carouselAnimationId = requestAnimationFrame(play);
                 };
 
-                // Comenzar bucle de animación
                 this.carouselAnimationId = requestAnimationFrame(play);
 
-                // Pausar al pasar el mouse o tocar para facilitar los clics en "Llevarme ahí"
-                container.addEventListener('mouseenter', () => this.isCarouselPaused = true);
-                container.addEventListener('mouseleave', () => this.isCarouselPaused = false);
+                // Pausar al pasar el ratón para permitir clicks cómodos
+                container.onmouseenter = () => { this.isCarouselPaused = true; };
+                container.onmouseleave = () => { this.isCarouselPaused = false; };
                 
-                container.addEventListener('touchstart', () => this.isCarouselPaused = true, {passive: true});
-                container.addEventListener('touchend', () => {
-                    setTimeout(() => this.isCarouselPaused = false, 1500); // Retoma brevemente después de soltar
-                }, {passive: true});
+                // Soporte táctil / drag horizontal fluido
+                let touchStartX = 0;
+                let touchStartPos = 0;
+                let isDragging = false;
+                let resumeTimer = null;
+
+                container.ontouchstart = (e) => {
+                    if (resumeTimer) clearTimeout(resumeTimer);
+                    this.isCarouselPaused = true;
+                    isDragging = true;
+                    touchStartX = e.touches[0].clientX;
+                    touchStartPos = this.carouselPos;
+                };
+
+                container.ontouchmove = (e) => {
+                    if (!isDragging) return;
+                    const diff = touchStartX - e.touches[0].clientX;
+                    this.carouselPos = touchStartPos + diff;
+                    const singleBlockWidth = grid.scrollWidth / 4;
+                    if (singleBlockWidth > 0) {
+                        if (this.carouselPos < 0) {
+                            this.carouselPos += singleBlockWidth;
+                            touchStartPos += singleBlockWidth;
+                        } else if (this.carouselPos >= singleBlockWidth) {
+                            this.carouselPos -= singleBlockWidth;
+                            touchStartPos -= singleBlockWidth;
+                        }
+                    }
+                    grid.style.transform = `translate3d(-${this.carouselPos}px, 0, 0)`;
+                };
+
+                container.ontouchend = () => {
+                    isDragging = false;
+                    resumeTimer = setTimeout(() => {
+                        this.isCarouselPaused = false;
+                    }, 1600);
+                };
             },
 
             stopCarousel() {
@@ -1027,6 +1777,7 @@
             setupSearch() {
                 const input = document.getElementById('main-search');
                 const suggBox = document.getElementById('search-sugg');
+                if (!input || !suggBox) return;
 
                 input.addEventListener('focus', () => suggBox.classList.add('active'));
                 
