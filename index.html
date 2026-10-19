@@ -217,6 +217,154 @@
         }
         .suggestion-item:active { background-color: var(--c-aurora-2); }
 
+        /* Buscador Desplegable hacia la derecha en la cabecera de Categorías */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            position: relative;
+        }
+
+        .expandable-search {
+            position: relative;
+            display: flex;
+            align-items: center;
+            height: 46px;
+            width: 46px;
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--c-border);
+            border-radius: var(--radius-full);
+            box-shadow: var(--shadow-sm);
+            transition: width 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                        box-shadow 0.3s ease,
+                        border-color 0.3s ease,
+                        background 0.3s ease;
+            overflow: visible;
+        }
+
+        .expandable-search:hover {
+            border-color: var(--c-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .expandable-search.open {
+            width: 280px;
+            background: #ffffff;
+            border-color: var(--c-primary);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .expandable-search-btn {
+            width: 44px;
+            height: 44px;
+            min-width: 44px;
+            border-radius: var(--radius-full);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--c-dark-green);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            transition: color 0.25s ease, transform 0.25s ease;
+            -webkit-tap-highlight-color: transparent;
+            z-index: 2;
+        }
+
+        .expandable-search-btn svg {
+            width: 20px;
+            height: 20px;
+            stroke-width: 2.2;
+            transition: transform 0.3s ease;
+        }
+
+        .expandable-search.open .expandable-search-btn {
+            color: var(--c-primary);
+        }
+
+        .expandable-search.open .expandable-search-btn svg {
+            transform: scale(1.05);
+        }
+
+        .expandable-search-input {
+            width: 100%;
+            height: 100%;
+            border: none;
+            background: transparent;
+            outline: none;
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--c-text-main);
+            padding: 0 36px 0 2px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s ease 0.1s;
+        }
+
+        .expandable-search.open .expandable-search-input {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .expandable-search-clear {
+            position: absolute;
+            right: 12px;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: var(--c-text-muted);
+            background: var(--c-aurora-2);
+            border: none;
+            cursor: pointer;
+            padding: 0;
+            transition: var(--transition);
+            z-index: 3;
+        }
+
+        .expandable-search.open .expandable-search-clear.visible {
+            display: flex;
+        }
+
+        .expandable-search-clear:hover {
+            background: #e1ede3;
+            color: var(--c-dark-green);
+        }
+
+        .cat-no-results {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px dashed var(--c-border);
+            border-radius: var(--radius-lg);
+            color: var(--c-text-muted);
+            font-size: 1.05rem;
+            margin-bottom: 32px;
+        }
+
+        @media (max-width: 600px) {
+            .section-header {
+                flex-wrap: wrap;
+                gap: 14px;
+                align-items: center;
+            }
+            .header-actions {
+                width: 100%;
+                justify-content: flex-start;
+            }
+            .expandable-search.open {
+                width: 100%;
+                max-width: 100%;
+            }
+        }
+
         /* Botones de acción en Hero (UX/UI: Jerarquía Primaria y Secundaria) */
         .hero-actions {
             margin-top: 36px;
@@ -1129,6 +1277,23 @@
             <div id="categories-section" class="container section-padding">
                 <div class="section-header gs-reveal">
                     <h2 class="section-title">Encontrá lo que necesitás</h2>
+                    <div class="header-actions">
+                        <div class="expandable-search" id="cat-expandable-search" role="search">
+                            <button type="button" class="expandable-search-btn" id="cat-search-toggle" aria-label="Abrir buscador de categorías" onclick="app.toggleCategorySearch()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
+                                    <circle cx="11" cy="11" r="8"></circle>
+                                    <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                </svg>
+                            </button>
+                            <input type="text" id="cat-search-input" class="expandable-search-input" placeholder="Buscar categoría o servicio..." autocomplete="off" oninput="app.handleCategorySearch(this.value)">
+                            <button type="button" class="expandable-search-clear" id="cat-search-clear" aria-label="Limpiar búsqueda" onclick="app.clearCategorySearch()">
+                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+                                    <line x1="18" y1="6" x2="6" y2="18"></line>
+                                    <line x1="6" y1="6" x2="18" y2="18"></line>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
                 </div>
                 <div class="categories-grid" id="cat-grid">
                     <!-- JS inyectará las categorías con SVGs profesionales -->
@@ -1581,9 +1746,29 @@
                 }
             },
 
-            renderCategories() {
+            renderCategories(filterQuery = '') {
                 const grid = document.getElementById('cat-grid');
-                grid.innerHTML = MOCK_DATA.categories.map((cat, i) => `
+                if (!grid) return;
+                
+                const query = filterQuery.trim().toLowerCase();
+                const filtered = query 
+                    ? MOCK_DATA.categories.filter(cat => 
+                        cat.name.toLowerCase().includes(query) || 
+                        cat.sub.toLowerCase().includes(query)
+                      )
+                    : MOCK_DATA.categories;
+
+                if (filtered.length === 0) {
+                    grid.innerHTML = `
+                        <div class="cat-no-results">
+                            <p style="font-size:1.15rem; font-weight:600; color:var(--c-dark-green); margin-bottom:6px;">No se encontraron categorías</p>
+                            <p style="margin:0;">No hay resultados para "<strong>${filterQuery}</strong>". Probá buscando con otro término.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                grid.innerHTML = filtered.map((cat, i) => `
                     <div class="cat-card" style="--i:${i}" role="link" tabindex="0" onclick="app.navigate('category', '${cat.id}')" onkeydown="if(event.key==='Enter')app.navigate('category','${cat.id}')">
                         <div class="cat-face">
                         <img class="cat-photo" src="${cat.img}" alt="${cat.name}" loading="lazy">
@@ -1599,6 +1784,81 @@
                         </div>
                     </div>
                 `).join('');
+
+                if (typeof ScrollTrigger !== 'undefined') {
+                    ScrollTrigger.refresh();
+                }
+            },
+
+            toggleCategorySearch() {
+                const container = document.getElementById('cat-expandable-search');
+                const input = document.getElementById('cat-search-input');
+                if (!container || !input) return;
+
+                const isOpen = container.classList.contains('open');
+                if (isOpen) {
+                    // Si ya está abierto pero sin texto, se cierra; si tiene texto lo mantenemos o cerramos
+                    if (!input.value.trim()) {
+                        this.closeCategorySearch();
+                    } else {
+                        input.focus();
+                    }
+                } else {
+                    this.openCategorySearch();
+                }
+            },
+
+            openCategorySearch() {
+                const container = document.getElementById('cat-expandable-search');
+                const input = document.getElementById('cat-search-input');
+                if (!container || !input) return;
+                
+                container.classList.add('open');
+                setTimeout(() => {
+                    input.focus();
+                }, 150);
+            },
+
+            closeCategorySearch() {
+                const container = document.getElementById('cat-expandable-search');
+                const input = document.getElementById('cat-search-input');
+                const clearBtn = document.getElementById('cat-search-clear');
+                if (!container) return;
+
+                container.classList.remove('open');
+                if (input) {
+                    input.value = '';
+                    input.blur();
+                }
+                if (clearBtn) {
+                    clearBtn.classList.remove('visible');
+                }
+                this.renderCategories('');
+            },
+
+            handleCategorySearch(value) {
+                const clearBtn = document.getElementById('cat-search-clear');
+                if (clearBtn) {
+                    if (value && value.trim().length > 0) {
+                        clearBtn.classList.add('visible');
+                    } else {
+                        clearBtn.classList.remove('visible');
+                    }
+                }
+                this.renderCategories(value);
+            },
+
+            clearCategorySearch() {
+                const input = document.getElementById('cat-search-input');
+                const clearBtn = document.getElementById('cat-search-clear');
+                if (input) {
+                    input.value = '';
+                    input.focus();
+                }
+                if (clearBtn) {
+                    clearBtn.classList.remove('visible');
+                }
+                this.renderCategories('');
             },
 
             renderFeatured() {
@@ -1806,13 +2066,29 @@
             setupSearch() {
                 const input = document.getElementById('main-search');
                 const suggBox = document.getElementById('search-sugg');
-                if (!input || !suggBox) return;
-
-                input.addEventListener('focus', () => suggBox.classList.add('active'));
+                if (input && suggBox) {
+                    input.addEventListener('focus', () => suggBox.classList.add('active'));
+                }
                 
                 document.addEventListener('click', (e) => {
-                    if(!e.target.closest('.search-container')) {
+                    if(suggBox && !e.target.closest('.search-container')) {
                         suggBox.classList.remove('active');
+                    }
+                    const catSearch = document.getElementById('cat-expandable-search');
+                    if (catSearch && catSearch.classList.contains('open') && !e.target.closest('#cat-expandable-search')) {
+                        const catInput = document.getElementById('cat-search-input');
+                        if (!catInput || !catInput.value.trim()) {
+                            app.closeCategorySearch();
+                        }
+                    }
+                });
+
+                document.addEventListener('keydown', (e) => {
+                    if (e.key === 'Escape') {
+                        const catSearch = document.getElementById('cat-expandable-search');
+                        if (catSearch && catSearch.classList.contains('open')) {
+                            app.closeCategorySearch();
+                        }
                     }
                 });
             },
